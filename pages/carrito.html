@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - Patitas Felices</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/carrito.css">
+</head>
+<body class="bg-gray-50">
+
+    <header class="main-header sticky top-0 bg-white/90 backdrop-blur-lg shadow-md z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="nav-logo">🐾 Patitas Felices</a>
+            <ul class="nav-menu hidden md:flex items-center space-x-8">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="productos.html">Productos</a></li>
+            </ul>
+            <div class="flex items-center gap-4">
+                <a href="carrito.html" class="cart-icon">
+                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span id="notificacion-carrito" class="cart-count-badge">0</span>
+                </a>
+                <button id="boton-menu" class="menu-button md:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="menu-movil" class="mobile-menu md:hidden">
+            <a href="../index.html" class="block py-2 px-4 text-sm">Inicio</a>
+            <a href="nosotros.html" class="block py-2 px-4 text-sm">Nosotros</a>
+            <a href="productos.html" class="block py-2 px-4 text-sm">Productos</a>
+            <a href="carrito.html" class="block py-2 px-4 text-sm active-mobile">Carrito</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-20">
+        <section class="text-center">
+            <h1 class="font-serif text-4xl md:text-5xl font-bold">Tu Carrito de Compras</h1>
+        </section>
+
+        <section id="seccion-carrito" class="mt-12">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div id="contenedor-items-carrito" class="lg:col-span-2 space-y-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h2 class="font-serif text-2xl font-bold mb-4">Tus Productos</h2>
+                        <div id="contenedor-items" class="space-y-4">
+                        </div>
+                        <div id="mensaje-carrito-vacio" class="hidden text-center py-8">
+                            <img src="../img/vacio.PNG" alt="Carrito vacío" class="mx-auto w-48 mb-4">
+                            <p class="text-gray-500 text-lg">Tu carrito está vacío.</p>
+                        </div>
+                    </div>
+                    
+                    <form id="formulario-facturacion" class="bg-white p-6 rounded-lg shadow-lg space-y-4 hidden">
+                        <h2 class="font-serif text-2xl font-bold mb-4">Información de Facturación</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="nombre" class="label-formulario">Nombre Completo</label>
+                                <input type="text" id="nombre" class="input-formulario">
+                                <p id="error-nombre" class="mensaje-error"></p>
+                            </div>
+                            <div>
+                                <label for="cedula" class="label-formulario">Cédula / RUC</label>
+                                <input type="text" id="cedula" class="input-formulario">
+                                <p id="error-cedula" class="mensaje-error"></p>
+                            </div>
+                            <div>
+                                <label for="email" class="label-formulario">Correo Electrónico</label>
+                                <input type="email" id="email" class="input-formulario">
+                                <p id="error-email" class="mensaje-error"></p>
+                            </div>
+                            <div>
+                                <label for="telefono" class="label-formulario">Teléfono</label>
+                                <input type="tel" id="telefono" class="input-formulario">
+                                <p id="error-telefono" class="mensaje-error"></p>
+                            </div>
+                            <div>
+                                <label for="provincia" class="label-formulario">Provincia</label>
+                                <input type="text" id="provincia" class="input-formulario">
+                                <p id="error-provincia" class="mensaje-error"></p>
+                            </div>
+                            <div>
+                                <label for="ciudad" class="label-formulario">Ciudad</label>
+                                <input type="text" id="ciudad" class="input-formulario">
+                                <p id="error-ciudad" class="mensaje-error"></p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="direccion" class="label-formulario">Dirección de Entrega</label>
+                            <input type="text" id="direccion" class="input-formulario">
+                            <p id="error-direccion" class="mensaje-error"></p>
+                        </div>
+                        <div>
+                            <label for="contrasena" class="label-formulario">Crea una contraseña para tu cuenta</label>
+                            <input type="password" id="contrasena" class="input-formulario">
+                            <p id="error-contrasena" class="mensaje-error"></p>
+                        </div>
+                        <p id="mensaje-envio-exitoso" class="text-center font-bold"></p>
+                    </form>
+                </div>
+                
+                <div id="resumen-carrito" class="lg:col-span-1">
+                    <div class="bg-white p-6 rounded-lg shadow-lg sticky top-28">
+                        <h2 class="font-serif text-2xl font-bold mb-4">Resumen del Pedido</h2>
+                        <div class="flex justify-between items-center text-lg mb-2">
+                            <span>Subtotal</span>
+                            <span id="resumen-subtotal">$0.00</span>
+                        </div>
+                         <div class="flex justify-between items-center text-lg font-bold">
+                            <span>Total</span>
+                            <span id="resumen-total" class="text-2xl">$0.00</span>
+                        </div>
+                        <hr class="my-4">
+                        <button id="boton-pagar" type="submit" form="formulario-facturacion" class="cta-button w-full" disabled>Proceder al Pago</button>
+                        <a href="productos.html" class="block text-center mt-4 text-amber-600 hover:text-amber-800 font-semibold">o seguir comprando</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-20">
+        <div class="container mx-auto px-6 text-center">
+            <p>© 2025 Patitas Felices. Creado con ❤️ para los que aman a sus mascotas.</p>
+        </div>
+    </footer>
+    
+    <script src="../js/index.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/carrito.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Patitas Felices</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/productos.css">
+</head>
+<body class="bg-gray-50">
+
+    <header class="main-header sticky top-0 bg-white/90 backdrop-blur-lg shadow-md z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="nav-logo">🐾 Patitas Felices</a>
+            <ul class="nav-menu hidden md:flex items-center space-x-8">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="productos.html" class="active">Productos</a></li>
+            </ul>
+             <div class="flex items-center gap-4">
+                <a href="carrito.html" class="cart-icon">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span id="notificacion-carrito" class="cart-count-badge">0</span>
+                </a>
+                <button id="boton-menu" class="menu-button md:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="menu-movil" class="mobile-menu md:hidden">
+            <a href="../index.html" class="block py-2 px-4 text-sm">Inicio</a>
+            <a href="nosotros.html" class="block py-2 px-4 text-sm">Nosotros</a>
+            <a href="productos.html" class="block py-2 px-4 text-sm active-mobile">Productos</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-20">
+        <section class="text-center">
+            <h1 class="font-serif text-4xl md:text-5xl font-bold">Nuestro Catálogo</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Todo lo que necesitas para el bienestar y la felicidad de tu mejor amigo, seleccionado con amor y cuidado.</p>
+        </section>
+
+        <section class="my-12 p-6 bg-amber-50 border-2 border-amber-200 rounded-lg text-center">
+            <p class="text-amber-800">
+                <strong>Consejo del experto:</strong> ¿No estás seguro de qué alimento elegir? Filtra por "Alimento" y revisa los detalles. Para los más juguetones, la categoría "Juguetes" tiene opciones para cada tipo de mordida. ¡Tu mascota te lo agradecerá!
+            </p>
+        </section>
+
+        <section>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                <input type="search" id="barra-busqueda" placeholder="Buscar producto por nombre..." class="input-busqueda">
+                <div id="filtros-categoria" class="botones-filtro">
+                    <button class="btn-filtro active" data-category="all">Todos</button>
+                    <button class="btn-filtro" data-category="alimento">Alimento</button>
+                    <button class="btn-filtro" data-category="juguete">Juguetes</button>
+                    <button class="btn-filtro" data-category="accesorio">Accesorios</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="lista-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+            
+            <div class="tarjeta-producto" data-category="alimento" data-id="prod01" data-name="NutraPro Adulto Pollo" data-price="35.50" data-image="../img/nutrapro.jpg" data-details="Alimento completo para perros adultos de razas medianas y grandes, con proteínas de alta calidad para una masa muscular fuerte.">
+                <img src="../img/nutrapro.jpg" alt="NutraPro Adulto Pollo">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">NutraPro Adulto Pollo</h3><p class="precio-producto mt-auto">$35.50</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+            
+            <div class="tarjeta-producto" data-category="accesorio" data-id="prod02" data-name="Arena Sanitaria para Gato" data-price="8.99" data-image="../img/arena.png" data-details="Arena aglomerante con control de olores superior. Máxima absorción y fácil de limpiar para mantener la bandeja de tu gato siempre fresca.">
+                <img src="../img/arena.PNG" alt="Arena Sanitaria para Gato">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Arena Sanitaria para Gato</h3><p class="precio-producto mt-auto">$8.99</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+            
+            <div class="tarjeta-producto" data-category="juguete" data-id="prod03" data-name="Rascador de Cartón" data-price="12.00" data-image="../img/rascador.jpg" data-details="Rascador de cartón corrugado que satisface el instinto natural de rascar de tu gato, ayudando a proteger tus muebles. Incluye catnip.">
+                <img src="../img/rascador.jpg" alt="Rascador de Cartón">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Rascador de Cartón</h3><p class="precio-producto mt-auto">$12.00</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+
+            <div class="tarjeta-producto" data-category="accesorio" data-id="prod04" data-name="Cama Acolchada Mediana" data-price="28.00" data-image="../img/cama.png" data-details="Cama suave y cómoda, perfecta para un descanso reparador. Material lavable y base antideslizante para mayor seguridad.">
+                <img src="../img/cama.png" alt="Cama Acolchada Mediana">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Cama Acolchada Mediana</h3><p class="precio-producto mt-auto">$28.00</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+
+            <div class="tarjeta-producto" data-category="alimento" data-id="prod05" data-name="Dog Chow Adultos" data-price="25.00" data-image="../img/dogshow.jpeg" data-details="Alimento 100% completo y balanceado con prebiótico natural que equilibra la flora intestinal. Vida sana, perro feliz.">
+                <img src="../img/dogshow.jpeg" alt="Dog Chow Adultos">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Dog Chow Adultos</h3><p class="precio-producto mt-auto">$25.00</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+
+            <div class="tarjeta-producto" data-category="accesorio" data-id="prod06" data-name="Collar de Nylon Reflectivo" data-price="9.50" data-image="../img/collarnaylon.png" data-details="Collar de nylon resistente y ajustable con bandas reflectivas para mayor visibilidad y seguridad durante los paseos nocturnos.">
+                <img src="../img/collarnaylon.PNG" alt="Collar de Nylon Reflectivo">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Collar de Nylon Reflectivo</h3><p class="precio-producto mt-auto">$9.50</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+
+            <div class="tarjeta-producto" data-category="juguete" data-id="prod07" data-name="Juguete Kong Clásico" data-price="15.00" data-image="../img/kong-classic.jpg" data-details="El clásico juguete dispensador de premios que ayuda a reducir el aburrimiento y la ansiedad por separación. Rebote impredecible para juegos divertidos.">
+                <img src="../img/kong-classic.jpg" alt="Juguete Kong Clásico">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Juguete Kong Clásico</h3><p class="precio-producto mt-auto">$15.00</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+
+            <div class="tarjeta-producto" data-category="alimento" data-id="prod08" data-name="Whiskas para Gatos" data-price="5.50" data-image="../img/Whiskas.jpeg" data-details="Alimento seco para gatos adultos con delicioso sabor a pollo y leche. Ayuda a mantener un sistema urinario saludable y un pelaje brillante.">
+                <img src="../img/Whiskas.jpeg" alt="Whiskas para Gatos">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Whiskas para Gatos</h3><p class="precio-producto mt-auto">$5.50</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+
+            <div class="tarjeta-producto" data-category="accesorio" data-id="prod09" data-name="Transportín de Viaje" data-price="45.00" data-image="../img/transporte.png" data-details="Transportín seguro y ventilado, aprobado por la mayoría de aerolíneas. Ideal para viajes en auto o avión. Para mascotas de hasta 10 kg.">
+                <img src="../img/transporte.PNG" alt="Transportín de Viaje">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Transportín de Viaje</h3><p class="precio-producto mt-auto">$45.00</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+
+            <div class="tarjeta-producto" data-category="accesorio" data-id="prod10" data-name="Cepillo Doble Cara" data-price="7.00" data-image="../img/cepillo.png" data-details="Cepillo con dos lados: uno con cerdas para eliminar pelo suelto y suciedad, y otro con púas de metal para desenredar.">
+                <img src="../img/cepillo.PNG" alt="Cepillo Doble Cara">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Cepillo Doble Cara</h3><p class="precio-producto mt-auto">$7.00</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+            
+            <div class="tarjeta-producto" data-category="juguete" data-id="prod11" data-name="Pelota de Tenis (Pack 3)" data-price="4.50" data-image="../img/tenies.png" data-details="Pack de 3 pelotas de tenis duraderas, perfectas para juegos de buscar y recoger. No abrasivas para los dientes de tu perro.">
+                <img src="../img/tenies.PNG" alt="Pelota de Tenis (Pack 3)">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Pelota de Tenis (Pack 3)</h3><p class="precio-producto mt-auto">$4.50</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+            
+            <div class="tarjeta-producto" data-category="accesorio" data-id="prod12" data-name="Plato de Acero Inoxidable" data-price="11.00" data-image="../img/plato.png" data-details="Plato duradero e higiénico, resistente a las bacterias y fácil de limpiar. Con base de goma antideslizante para evitar derrames.">
+                <img src="../img/plato.PNG" alt="Plato de Acero Inoxidable">
+                <div class="p-4 flex flex-col flex-grow"><h3 class="titulo-producto">Plato de Acero Inoxidable</h3><p class="precio-producto mt-auto">$11.00</p><div class="botones-producto"><button class="btn-detalles">Ver detalles</button><button class="btn-añadir-carrito">Añadir</button></div></div>
+            </div>
+
+        </section>
+        <p id="mensaje-sin-resultados" class="hidden text-center text-gray-500 mt-12 text-lg">No se encontraron productos que coincidan con tu búsqueda.</p>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-20">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 Patitas Felices. Creado con ❤️ para los que aman a sus mascotas.</p>
+        </div>
+    </footer>
+
+    <div id="modal-producto" class="superposicion-modal hidden">
+        <div class="contenedor-modal">
+            <button id="cerrar-modal" class="btn-cerrar-modal">&times;</button>
+            <img id="modal-imagen" src="" alt="Imagen del producto" class="w-full h-64 object-cover mb-4 rounded-lg">
+            <h2 id="modal-nombre" class="font-serif text-3xl font-bold"></h2>
+            <p id="modal-precio" class="text-2xl font-bold my-2"></p>
+            <p id="modal-detalles" class="text-gray-600"></p>
+            <button id="modal-boton-añadir" class="btn-añadir-carrito w-full mt-6">Añadir al carrito</button>
+        </div>
+    </div>
+    
+    <script src="../js/index.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/productos.js"></script>
+</body>
+</html>
