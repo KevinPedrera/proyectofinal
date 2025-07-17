@@ -58,52 +58,58 @@
                         </div>
                     </div>
                     
-                    <form id="formulario-facturacion" class="bg-white p-6 rounded-lg shadow-lg space-y-4 hidden">
+                    <form id="formulario-facturacion" class="bg-white p-6 rounded-lg shadow-lg space-y-4 hidden" novalidate>
                         <h2 class="font-serif text-2xl font-bold mb-4">Información de Facturación</h2>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label for="nombre" class="label-formulario">Nombre Completo</label>
-                                <input type="text" id="nombre" class="input-formulario">
+                                <input type="text" id="nombre" class="input-formulario" placeholder="Ej: Juan Pérez">
                                 <p id="error-nombre" class="mensaje-error"></p>
                             </div>
                             <div>
                                 <label for="cedula" class="label-formulario">Cédula / RUC</label>
-                                <input type="text" id="cedula" class="input-formulario">
+                                <input type="text" id="cedula" class="input-formulario" placeholder="10 o 13 dígitos numéricos">
                                 <p id="error-cedula" class="mensaje-error"></p>
                             </div>
                             <div>
                                 <label for="email" class="label-formulario">Correo Electrónico</label>
-                                <input type="email" id="email" class="input-formulario">
+                                <input type="email" id="email" class="input-formulario" placeholder="juan.perez@correo.com">
                                 <p id="error-email" class="mensaje-error"></p>
                             </div>
                             <div>
                                 <label for="telefono" class="label-formulario">Teléfono</label>
-                                <input type="tel" id="telefono" class="input-formulario">
+                                <input type="tel" id="telefono" class="input-formulario" placeholder="Ej: 0991234567">
                                 <p id="error-telefono" class="mensaje-error"></p>
                             </div>
                             <div>
                                 <label for="provincia" class="label-formulario">Provincia</label>
-                                <input type="text" id="provincia" class="input-formulario">
+                                <input type="text" id="provincia" class="input-formulario" placeholder="Ej: Pichincha">
                                 <p id="error-provincia" class="mensaje-error"></p>
                             </div>
                             <div>
                                 <label for="ciudad" class="label-formulario">Ciudad</label>
-                                <input type="text" id="ciudad" class="input-formulario">
+                                <input type="text" id="ciudad" class="input-formulario" placeholder="Ej: Quito">
                                 <p id="error-ciudad" class="mensaje-error"></p>
                             </div>
                         </div>
                         
                         <div>
                             <label for="direccion" class="label-formulario">Dirección de Entrega</label>
-                            <input type="text" id="direccion" class="input-formulario">
+                            <input type="text" id="direccion" class="input-formulario" placeholder="Mínimo 10 caracteres">
                             <p id="error-direccion" class="mensaje-error"></p>
                         </div>
+
                         <div>
-                            <label for="contrasena" class="label-formulario">Crea una contraseña para tu cuenta</label>
-                            <input type="password" id="contrasena" class="input-formulario">
-                            <p id="error-contrasena" class="mensaje-error"></p>
+                            <label for="envio" class="label-formulario">¿Desea envío a domicilio?</label>
+                            <select id="envio" class="input-formulario">
+                                <option value="" disabled selected>Seleccione una opción...</option>
+                                <option value="si">Sí, deseo envío a domicilio</option>
+                                <option value="no">No, retiraré en tienda</option>
+                            </select>
+                            <p id="error-envio" class="mensaje-error"></p>
                         </div>
+
                         <p id="mensaje-envio-exitoso" class="text-center font-bold"></p>
                     </form>
                 </div>
@@ -134,8 +140,6 @@
         </div>
     </footer>
     
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
     <script src="../js/index.js"></script>
     <script src="../js/cart.js"></script>
     <script src="../js/carrito.js"></script>
