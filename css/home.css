@@ -101,3 +101,30 @@ body {
     color: white;
     font-weight: 700;
 }
+
+/* Animacion de la pagina prismic*/
+
+.hero-gradient {
+    background: linear-gradient(-45deg, #fef3c7, #fde68a, #f9fafb, #fed7aa);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    border-radius: 0.5rem;
+    color: #1f2937;
+}
+
+.hero-gradient h1,
+.hero-gradient p {
+    color: inherit;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
