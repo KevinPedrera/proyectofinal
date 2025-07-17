@@ -99,7 +99,6 @@
     background-color: #9ca3af;
 }
 
-/* Transición suave para el mensaje de éxito */
 #mensaje-envio-exitoso {
     opacity: 0;
     transform: translateY(10px);
@@ -109,4 +108,21 @@
 #mensaje-envio-exitoso.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .tarjeta-item-carrito {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .detalles-item-carrito {
+    width: 100%;
+  }
+
+  .controles-cantidad,
+  .btn-eliminar {
+    align-self: flex-end;
+  }
 }
