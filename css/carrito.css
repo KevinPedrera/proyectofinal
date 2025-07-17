@@ -98,3 +98,15 @@
 #boton-pagar:disabled:hover {
     background-color: #9ca3af;
 }
+
+/* Transición suave para el mensaje de éxito */
+#mensaje-envio-exitoso {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+#mensaje-envio-exitoso.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    //inicio base de datos
     firebase.initializeApp({
         apiKey: "AIzaSyDfmSjgrBmKkVd_OirGB_Bf2JUtN3PVkBA",
         authDomain: "proyectofinal-b1934.firebaseapp.com",
@@ -12,28 +11,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const db = firebase.firestore();
 
     const contenedorItems = document.getElementById('contenedor-items');
-    const mensajeCarritoVacio = document.getElementById('mensaje-carrito-vacio');
-    const resumenSubtotal = document.getElementById('resumen-subtotal');
-    const resumenTotal = document.getElementById('resumen-total');
-    const resumenCarrito = document.getElementById('resumen-carrito');
     const formularioFacturacion = document.getElementById('formulario-facturacion');
     const botonPagar = document.getElementById('boton-pagar');
 
     const renderizarCarrito = () => {
         const carrito = window.obtenerCarrito();
+        const resumenSubtotal = document.getElementById('resumen-subtotal');
+        const resumenTotal = document.getElementById('resumen-total');
+        const mensajeCarritoVacio = document.getElementById('mensaje-carrito-vacio');
+        const resumenCarrito = document.getElementById('resumen-carrito');
+        if (!contenedorItems) return;
+
         contenedorItems.innerHTML = '';
         let subtotal = 0;
 
         if (carrito.length === 0) {
-            mensajeCarritoVacio.style.display = 'block';
-            resumenCarrito.style.display = 'none';
-            formularioFacturacion.style.display = 'none';
+            if (mensajeCarritoVacio) mensajeCarritoVacio.style.display = 'block';
+            if (resumenCarrito) resumenCarrito.style.display = 'none';
+            if (formularioFacturacion) formularioFacturacion.style.display = 'none';
             return;
         }
 
-        mensajeCarritoVacio.style.display = 'none';
-        resumenCarrito.style.display = 'block';
-        formularioFacturacion.style.display = 'block';
+        if (mensajeCarritoVacio) mensajeCarritoVacio.style.display = 'none';
+        if (resumenCarrito) resumenCarrito.style.display = 'block';
+        if (formularioFacturacion) formularioFacturacion.style.display = 'block';
 
         carrito.forEach(item => {
             const elementoItem = document.createElement('div');
@@ -50,32 +51,32 @@ document.addEventListener('DOMContentLoaded', () => {
             contenedorItems.appendChild(elementoItem);
         });
 
-        resumenSubtotal.textContent = `$${subtotal.toFixed(2)}`;
-        resumenTotal.textContent = `$${subtotal.toFixed(2)}`;
+        if (resumenSubtotal) resumenSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+        if (resumenTotal) resumenTotal.textContent = `$${subtotal.toFixed(2)}`;
     };
 
-    contenedorItems.addEventListener('click', (e) => {
-        const objetivo = e.target;
-        if (!objetivo.matches('.btn-cantidad') && !objetivo.matches('.btn-eliminar')) return;
+    if (contenedorItems) {
+        contenedorItems.addEventListener('click', (e) => {
+            const objetivo = e.target;
+            if (!objetivo.matches('.btn-cantidad') && !objetivo.matches('.btn-eliminar')) return;
+            const carrito = window.obtenerCarrito();
+            const itemId = objetivo.dataset.id;
+            const itemIndex = carrito.findIndex(i => i.id === itemId);
+            if (itemIndex === -1) return;
 
-        const carrito = window.obtenerCarrito();
-        const itemId = objetivo.dataset.id;
-        const itemIndex = carrito.findIndex(i => i.id === itemId);
-
-        if (itemIndex === -1) return;
-
-        if (objetivo.matches('.btn-cantidad')) {
-            const cambio = parseInt(objetivo.dataset.cambio, 10);
-            carrito[itemIndex].cantidad += cambio;
-            if (carrito[itemIndex].cantidad <= 0) {
+            if (objetivo.matches('.btn-cantidad')) {
+                const cambio = parseInt(objetivo.dataset.cambio, 10);
+                carrito[itemIndex].cantidad += cambio;
+                if (carrito[itemIndex].cantidad <= 0) {
+                    carrito.splice(itemIndex, 1);
+                }
+            } else {
                 carrito.splice(itemIndex, 1);
             }
-        } else {
-            carrito.splice(itemIndex, 1);
-        }
-        window.guardarCarrito(carrito);
-        renderizarCarrito();
-    });
+            window.guardarCarrito(carrito);
+            renderizarCarrito();
+        });
+    }
 
     const campos = {
         nombre: { regex: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,}$/, error: "Debe contener solo letras y ser mayor a 3 caracteres." },
@@ -91,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const validarCampo = (id) => {
         const input = document.getElementById(id);
         const errorP = document.getElementById(`error-${id}`);
+        if (!input || !errorP) return false;
         const { regex, error } = campos[id];
         
         if (regex.test(input.value.trim())) {
@@ -108,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const validarFormularioCompleto = () => {
         const esValido = Object.keys(campos).every(id => validarCampo(id));
-        botonPagar.disabled = !esValido;
+        if (botonPagar) botonPagar.disabled = !esValido;
     };
 
     Object.keys(campos).forEach(id => {
@@ -121,62 +123,67 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    formularioFacturacion.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        validarFormularioCompleto();
-        if (botonPagar.disabled) return;
-
-        botonPagar.disabled = true;
-        const mensajeExitoso = document.getElementById('mensaje-envio-exitoso');
-        mensajeExitoso.textContent = "Procesando su orden...";
-        mensajeExitoso.style.color = 'blue';
-
-        const productosDelCarrito = window.obtenerCarrito();
-        const productosParaGuardar = productosDelCarrito.map(item => ({
-            id: item.id,
-            nombre: item.nombre,
-            precio: item.precio,
-            cantidad: item.cantidad
-        }));
-
-        const orden = {
-            cliente: {
-                nombre: document.getElementById('nombre').value,
-                cedula: document.getElementById('cedula').value,
-                email: document.getElementById('email').value,
-                telefono: document.getElementById('telefono').value,
-                provincia: document.getElementById('provincia').value,
-                ciudad: document.getElementById('ciudad').value,
-                direccion: document.getElementById('direccion').value,
-                solicitaEnvio: document.getElementById('envio').value,
-            },
-            productos: productosParaGuardar,
-            total: parseFloat(document.getElementById('resumen-total').textContent.replace('$', '')),
-            fecha: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        try {
-            await db.collection("ordenes").add(orden);
+    if (formularioFacturacion) {
+        formularioFacturacion.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            validarFormularioCompleto();
+            if (botonPagar.disabled) return;
             
-            mensajeExitoso.textContent = "¡Orden procesada con éxito! Gracias por tu compra.";
-            mensajeExitoso.style.color = 'green';
+            botonPagar.disabled = true;
+            const mensajeExitoso = document.getElementById('mensaje-envio-exitoso');
 
-            setTimeout(() => {
-                formularioFacturacion.reset();
-                document.querySelectorAll('.input-formulario').forEach(input => {
-                    input.classList.remove("border-green-500", "border-red-500");
-                });
-                window.guardarCarrito([]);
-                renderizarCarrito();
-            }, 3000);
+            mensajeExitoso.textContent = "Procesando pago... Por favor, espere.";
+            mensajeExitoso.style.color = 'blue';
+            mensajeExitoso.classList.add('visible');
 
-        } catch (error) {
-            console.error("Error al guardar la orden: ", error);
-            mensajeExitoso.textContent = "Error al procesar la orden. Inténtelo de nuevo.";
-            mensajeExitoso.style.color = 'red';
-            botonPagar.disabled = false;
-        }
-    });
+            await new Promise(resolve => setTimeout(resolve, 4000));
+
+            const productosDelCarrito = window.obtenerCarrito();
+            const productosParaGuardar = productosDelCarrito.map(item => ({
+                id: item.id, nombre: item.nombre, precio: item.precio, cantidad: item.cantidad
+            }));
+
+            const orden = {
+                cliente: {
+                    nombre: document.getElementById('nombre').value,
+                    cedula: document.getElementById('cedula').value,
+                    email: document.getElementById('email').value,
+                    telefono: document.getElementById('telefono').value,
+                    provincia: document.getElementById('provincia').value,
+                    ciudad: document.getElementById('ciudad').value,
+                    direccion: document.getElementById('direccion').value,
+                    solicitaEnvio: document.getElementById('envio').value,
+                },
+                productos: productosParaGuardar,
+                total: parseFloat(document.getElementById('resumen-total').textContent.replace('$', '')),
+                fecha: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await db.collection("ordenes").add(orden);
+                
+                mensajeExitoso.textContent = "¡Pago realizado con éxito! Gracias por tu compra.";
+                mensajeExitoso.style.color = 'green';
+                
+                setTimeout(() => {
+                    formularioFacturacion.reset();
+                    document.querySelectorAll('.input-formulario').forEach(input => {
+                        input.classList.remove("border-green-500", "border-red-500");
+                    });
+                    window.guardarCarrito([]);
+                    renderizarCarrito();
+                    mensajeExitoso.classList.remove('visible');
+                    botonPagar.disabled = false;
+                }, 5000);
+
+            } catch (error) {
+                console.error("Error al guardar la orden: ", error);
+                mensajeExitoso.textContent = "Error al procesar la orden. Inténtelo de nuevo.";
+                mensajeExitoso.style.color = 'red';
+                botonPagar.disabled = false;
+            }
+        });
+    }
 
     renderizarCarrito();
 });
