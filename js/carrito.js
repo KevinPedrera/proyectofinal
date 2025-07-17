@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+    //inicio base de datos
+    firebase.initializeApp({
+        apiKey: "AIzaSyDfmSjgrBmKkVd_OirGB_Bf2JUtN3PVkBA",
+        authDomain: "proyectofinal-b1934.firebaseapp.com",
+        projectId: "proyectofinal-b1934",
+        storageBucket: "proyectofinal-b1934.appspot.com",
+        messagingSenderId: "896052592037",
+        appId: "1:896052592037:web:d4f1ad8149a35bf89a3c4c",
+        measurementId: "G-GZF3X67EL0"
+    });
+    const db = firebase.firestore();
+
     const contenedorItems = document.getElementById('contenedor-items');
     const mensajeCarritoVacio = document.getElementById('mensaje-carrito-vacio');
     const resumenSubtotal = document.getElementById('resumen-subtotal');
@@ -44,25 +56,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     contenedorItems.addEventListener('click', (e) => {
         const objetivo = e.target;
+        if (!objetivo.matches('.btn-cantidad') && !objetivo.matches('.btn-eliminar')) return;
+
         const carrito = window.obtenerCarrito();
-        if (objetivo.matches('.btn-cantidad') || objetivo.matches('.btn-eliminar')) {
-            const itemId = objetivo.dataset.id;
-            const itemIndex = carrito.findIndex(i => i.id === itemId);
+        const itemId = objetivo.dataset.id;
+        const itemIndex = carrito.findIndex(i => i.id === itemId);
 
-            if (itemIndex === -1) return;
+        if (itemIndex === -1) return;
 
-            if (objetivo.matches('.btn-cantidad')) {
-                const cambio = parseInt(objetivo.dataset.cambio, 10);
-                carrito[itemIndex].cantidad += cambio;
-                if (carrito[itemIndex].cantidad <= 0) {
-                    carrito.splice(itemIndex, 1);
-                }
-            } else {
+        if (objetivo.matches('.btn-cantidad')) {
+            const cambio = parseInt(objetivo.dataset.cambio, 10);
+            carrito[itemIndex].cantidad += cambio;
+            if (carrito[itemIndex].cantidad <= 0) {
                 carrito.splice(itemIndex, 1);
             }
-            window.guardarCarrito(carrito);
-            renderizarCarrito();
+        } else {
+            carrito.splice(itemIndex, 1);
         }
+        window.guardarCarrito(carrito);
+        renderizarCarrito();
     });
 
     const campos = {
@@ -116,22 +128,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
         botonPagar.disabled = true;
         const mensajeExitoso = document.getElementById('mensaje-envio-exitoso');
-        mensajeExitoso.textContent = "Procesando su orden... (Simulación)";
+        mensajeExitoso.textContent = "Procesando su orden...";
         mensajeExitoso.style.color = 'blue';
 
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        const productosDelCarrito = window.obtenerCarrito();
+        const productosParaGuardar = productosDelCarrito.map(item => ({
+            id: item.id,
+            nombre: item.nombre,
+            precio: item.precio,
+            cantidad: item.cantidad
+        }));
 
-        mensajeExitoso.textContent = "¡Orden procesada con éxito! Gracias por tu compra.";
-        mensajeExitoso.style.color = 'green';
+        const orden = {
+            cliente: {
+                nombre: document.getElementById('nombre').value,
+                cedula: document.getElementById('cedula').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                provincia: document.getElementById('provincia').value,
+                ciudad: document.getElementById('ciudad').value,
+                direccion: document.getElementById('direccion').value,
+                solicitaEnvio: document.getElementById('envio').value,
+            },
+            productos: productosParaGuardar,
+            total: parseFloat(document.getElementById('resumen-total').textContent.replace('$', '')),
+            fecha: firebase.firestore.FieldValue.serverTimestamp()
+        };
 
-        setTimeout(() => {
-            formularioFacturacion.reset();
-            document.querySelectorAll('.input-formulario').forEach(input => {
-                input.classList.remove("border-green-500", "border-red-500");
-            });
-            window.guardarCarrito([]);
-            renderizarCarrito();
-        }, 3000);
+        try {
+            await db.collection("ordenes").add(orden);
+            
+            mensajeExitoso.textContent = "¡Orden procesada con éxito! Gracias por tu compra.";
+            mensajeExitoso.style.color = 'green';
+
+            setTimeout(() => {
+                formularioFacturacion.reset();
+                document.querySelectorAll('.input-formulario').forEach(input => {
+                    input.classList.remove("border-green-500", "border-red-500");
+                });
+                window.guardarCarrito([]);
+                renderizarCarrito();
+            }, 3000);
+
+        } catch (error) {
+            console.error("Error al guardar la orden: ", error);
+            mensajeExitoso.textContent = "Error al procesar la orden. Inténtelo de nuevo.";
+            mensajeExitoso.style.color = 'red';
+            botonPagar.disabled = false;
+        }
     });
 
     renderizarCarrito();
